@@ -1,0 +1,42 @@
+name: WeaveFox Pages Deploy
+description: Upload a build artifact zip to WeaveFox Pages and deploy it as the live version
+author: WeaveFox
+
+branding:
+  icon: upload-cloud
+  color: blue
+
+inputs:
+  api-key:
+    description: WeaveFox API key, sent as the Bearer token
+    required: true
+  public-id:
+    description: publicId of the target WeaveFox Pages app
+    required: true
+  dist-dir:
+    description: Directory that contains the build output (must include index.html)
+    required: false
+    default: dist
+  changelog:
+    description: Version changelog, 1-2000 characters. Defaults to a commit based message
+    required: false
+
+outputs:
+  version:
+    description: Version created for this deployment
+    value: ${{ steps.deploy.outputs.version }}
+  artifact-zip-url:
+    description: URL of the uploaded artifact zip
+    value: ${{ steps.deploy.outputs.artifact-zip-url }}
+
+runs:
+  using: composite
+  steps:
+    - id: deploy
+      shell: bash
+      run: bash "${{ github.action_path }}/scripts/deploy.sh"
+      env:
+        INPUT_API_KEY: ${{ inputs.api-key }}
+        INPUT_PUBLIC_ID: ${{ inputs.public-id }}
+        INPUT_DIST_DIR: ${{ inputs.dist-dir }}
+        INPUT_CHANGELOG: ${{ inputs.changelog }}

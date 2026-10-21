@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build artifact
+        run: |
+          mkdir -p dist
+          {
+            printf '<!doctype html><meta charset="utf-8"><title>weavefox/pages</title>\n<pre>'
+            printf 'weavefox/pages · commit %s · deployed %s\n\n----\n\n' \
+              "${GITHUB_SHA:0:7}" "$(date -u '+%Y-%m-%d %H:%M:%SZ')"
+            sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' README.md
+            printf '</pre>\n'
+          } > dist/index.html
+
+      - uses: ./
+        with:
+          api-key: ${{ secrets.WEAVEFOX_API_KEY }}
+          public-id: weavefox-pages-action
+          dist-dir: dist
+          changelog: Deploy ${{ github.sha }} from ${{ github.ref_name }}
