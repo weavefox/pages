@@ -18,7 +18,7 @@ inputs:
     required: false
     default: dist
   changelog:
-    description: Version changelog, 1-2000 characters. Defaults to a commit based message
+    description: Version changelog, 1-2000 characters. Defaults to a commit based message. The git user name is always prepended
     required: false
 
 outputs:
