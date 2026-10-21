@@ -2,6 +2,8 @@
 
 Build your site in CI, upload the artifact zip to WeaveFox Pages, and deploy it as the live version.
 
+See the [example site](https://weavefox-pages-action.app.weavefox.cn/).
+
 The action runs `upload-token` → `upload-artifact-zip` → `create version` → `deploy version` and stops at the first failing call.
 
 ## Usage
