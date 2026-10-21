@@ -36,9 +36,9 @@ jobs:
           changelog: ${{ github.event.head_commit.message }}
 ```
 
-To create a WeaveFox API key, visit https://www.weavefox.cn/open, create a key in your WeaveFox account, and copy it into a GitHub Actions secret such as `WEAVEFOX_API_KEY` before using it in the workflow above.
+To create a WeaveFox API key, visit https://www.weavefox.cn/open, generate a key in your WeaveFox account, and store it as a GitHub Actions secret such as `WEAVEFOX_API_KEY`.
 
-`WEAVEFOX_API_KEY` is created on the WeaveFox API Key page and stored as a repository secret. `public-id` is the `publicId` of your WeaveFox Pages app; the example uses `weavefox-test-app`.
+`public-id` is the `publicId` of your WeaveFox Pages app; the example uses `weavefox-test-app`.
 
 ## Inputs
 
