@@ -27,4 +27,3 @@ jobs:
           api-key: ${{ secrets.WEAVEFOX_API_KEY }}
           public-id: weavefox-pages-action
           dist-dir: dist
-          changelog: Deploy ${{ github.sha }} from ${{ github.ref_name }}

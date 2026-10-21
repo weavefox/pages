@@ -30,7 +30,12 @@ call() {
 [ -n "$API_KEY" ] || fail "api-key is required"
 [ -n "$PUBLIC_ID" ] || fail "public-id is required"
 [ -f "$DIST_DIR/index.html" ] || fail "index.html not found in $DIST_DIR"
-[ -n "$CHANGELOG" ] || CHANGELOG="Deploy ${GITHUB_SHA:0:7}"
+if [ -z "$CHANGELOG" ]; then
+  CHANGELOG="Deploy ${GITHUB_SHA:0:7}"
+  [ -z "${GITHUB_REF_NAME:-}" ] || CHANGELOG+=" from $GITHUB_REF_NAME"
+  commit_message="$(git log -1 --format=%s 2>/dev/null || true)"
+  [ -z "$commit_message" ] || CHANGELOG+=": $commit_message"
+fi
 GIT_USER="${GITHUB_ACTOR:-$(git log -1 --format=%an 2>/dev/null || true)}"
 [ -z "$GIT_USER" ] || CHANGELOG="$GIT_USER, $CHANGELOG"
 

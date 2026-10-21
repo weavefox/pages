@@ -35,7 +35,6 @@ jobs:
           api-key: ${{ secrets.WEAVEFOX_API_KEY }}
           public-id: weavefox-test-app
           dist-dir: dist
-          changelog: ${{ github.event.head_commit.message }}
 ```
 
 To create a WeaveFox API key, visit https://www.weavefox.cn/open, generate a key in your WeaveFox account, and store it as a GitHub Actions secret such as `WEAVEFOX_API_KEY`.
@@ -49,7 +48,7 @@ To create a WeaveFox API key, visit https://www.weavefox.cn/open, generate a key
 | `api-key` | yes | | WeaveFox API key, sent as the Bearer token |
 | `public-id` | yes | | `publicId` of the target WeaveFox Pages app |
 | `dist-dir` | no | `dist` | Directory containing the build output; must include `index.html` |
-| `changelog` | no | `Deploy <sha> from <repo>` | Version changelog, 1-2000 characters |
+| `changelog` | no | `Deploy <short-sha> from <branch>: <commit subject>` | Version changelog, 1-2000 characters |
 
 ## Outputs
 
