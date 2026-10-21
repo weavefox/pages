@@ -36,6 +36,8 @@ jobs:
           changelog: ${{ github.event.head_commit.message }}
 ```
 
+To create a WeaveFox API key, visit https://www.weavefox.cn/open, create a key in your WeaveFox account, and copy it into a GitHub Actions secret such as `WEAVEFOX_API_KEY` before using it in the workflow above.
+
 `WEAVEFOX_API_KEY` is created on the WeaveFox API Key page and stored as a repository secret. `public-id` is the `publicId` of your WeaveFox Pages app; the example uses `weavefox-test-app`.
 
 ## Inputs
@@ -83,7 +85,7 @@ After this change `index.html` references `./assets/...` instead of `/assets/...
 
 ## Publishing to Marketplace
 
-The action is publishable as-is: `action.yml` defines `name`, `description` and `branding`. Push a semver tag, create a release with the tag `v1` (also keep a moving `v1` tag for consumers), and tick "Publish this Action to the GitHub Marketplace" in the release form.
+The action is publishable as-is: `action.yml` defines `name`, `description` and `branding`. Push a semver tag, create a release with the tag `v1` (also keep a moving `v1` tag for consumers), and then publish it in the GitHub Marketplace.
 
 ## License
 
