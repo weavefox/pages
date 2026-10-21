@@ -31,6 +31,8 @@ call() {
 [ -n "$PUBLIC_ID" ] || fail "public-id is required"
 [ -f "$DIST_DIR/index.html" ] || fail "index.html not found in $DIST_DIR"
 [ -n "$CHANGELOG" ] || CHANGELOG="Deploy ${GITHUB_SHA:0:7}"
+GIT_USER="${GITHUB_ACTOR:-$(git log -1 --format=%an 2>/dev/null || true)}"
+[ -z "$GIT_USER" ] || CHANGELOG="$CHANGELOG (by $GIT_USER)"
 
 work_dir="$(mktemp -d)"
 trap 'rm -rf "$work_dir"' EXIT
