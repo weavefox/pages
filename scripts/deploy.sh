@@ -19,8 +19,10 @@ call() {
   status="${response##*$'\n'}"
   payload="${response%$'\n'*}"
 
-  if [ "$status" != "200" ] || [ "$(jq -r '.code' <<<"$payload" 2>/dev/null)" != "0" ]; then
-    fail "$1 $2 failed: $(jq -r '.message // .' <<<"$payload" 2>/dev/null || printf '%s' "$payload")"
+  if [ "${status:0:1}" != "2" ] || [ "$(jq -r '.code' <<<"$payload" 2>/dev/null)" != "0" ]; then
+    local message
+    message="$(jq -r '.message // empty' <<<"$payload" 2>/dev/null)"
+    fail "$1 $2 failed (HTTP $status): ${message:-$payload}"
   fi
   printf '%s' "$payload"
 }
@@ -39,7 +41,7 @@ token="$(call POST "/apps/$PUBLIC_ID/upload-token" | jq -r '.data.token // empty
 printf '::add-mask::%s\n' "$token"
 
 upload="$(curl -sS -X POST -H "Authorization: Bearer $token" \
-  -F "file=@$work_dir/artifact.zip" \
+  -F "file=@$work_dir/artifact.zip;type=application/zip" \
   "$API_BASE_URL/apps/$PUBLIC_ID/upload-artifact-zip")" || fail "Upload request failed"
 artifact_zip_url="$(jq -r '.data.artifactZipUrl // empty' <<<"$upload" 2>/dev/null)"
 [ -n "$artifact_zip_url" ] || fail "Upload failed: $(jq -r '.message // .' <<<"$upload" 2>/dev/null || printf '%s' "$upload")"
